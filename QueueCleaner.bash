@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 scriptVersion="1.0.001"
+#Cron this script to run periodically.  Recommended no more than every 15 minutes.
+arrRoot="/mnt/user/appdata/sonarr" #Replace with whatever your root is for appdata for your instance.
+ipaddress="" #insert your local docker sonarr IP address
 
 if [ -z "$arrUrl" ] || [ -z "$arrApiKey" ]; then
   arrUrlBase="$(cat /config/config.xml | xq | jq -r .Config.UrlBase)"
@@ -8,18 +11,18 @@ if [ -z "$arrUrl" ] || [ -z "$arrApiKey" ]; then
   else
     arrUrlBase="/$(echo "$arrUrlBase" | sed "s/\///g")"
   fi
-  arrApiKey="$(cat /config/config.xml | xq | jq -r .Config.ApiKey)"
+  arrApiKey="$(cat ${arrRoot}/config/config.xml | xq | jq -r .Config.ApiKey)"
   arrPort="$(cat /config/config.xml | xq | jq -r .Config.Port)"
-  arrUrl="http://127.0.0.1:${arrPort}${arrUrlBase}"
+  arrUrl="http://${ipaddress}:${arrPort}${arrUrlBase}"
 fi
 
 # auto-clean up log file to reduce space usage
-if [ -f "/config/logs/QueueCleaner.txt" ]; then
-	find /config/logs -type f -name "QueueCleaner.txt" -size +1024k -delete
+if [ -f "${arrRoot}/config/logs/QueueCleaner.txt" ]; then
+	find ${arrRoot}/config/logs -type f -name "QueueCleaner.txt" -size +1024k -delete
 fi
 
-exec &>> "/config/logs/QueueCleaner.txt"
-chmod 666 "/config/logs/QueueCleaner.txt"
+exec &>> "${arrRoot}/config/logs/QueueCleaner.txt"
+chmod 666 "${arrRoot}/config/logs/QueueCleaner.txt"
 
 log () {
   m_time=`date "+%F %T"`
