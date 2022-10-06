@@ -1,8 +1,10 @@
 #!/bin/bash
-scriptVersion="1.0.001"
-#Cron this script to run periodically.  Recommended no more than every 15 minutes.
-arrRoot="/mnt/user/appdata/sonarr" #Replace with whatever your root is for appdata for your instance.
-ipaddress="" #insert your local docker sonarr IP address
+
+# Cron this script to run periodically.  Recommended to run this every 4 hours to 1 day.
+# Need to have python packages xq, jq, and yq.
+
+arrRoot="/mnt/user/appdata/..." #Replace with whatever your root is for appdata for your instance.
+ipaddress="192.168.1.x" #insert your local docker sonarr IP address
 
 if [ -z "$arrUrl" ] || [ -z "$arrApiKey" ]; then
   arrUrlBase="$(cat ${arrRoot}/config.xml | xq | jq -r .Config.UrlBase)"
