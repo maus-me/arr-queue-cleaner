@@ -8,8 +8,8 @@ pip install yq
 
 # !!! CONFIG STARTS !!!
 
-arrRoot="/mnt/user/appdata/hotio-sonarr" #Replace with whatever your root is for appdata for your instance.
-ipaddress="192.168.1.60" #insert your local docker sonarr IP address
+arrRoot="/mnt/user/appdata/" #Replace with whatever your root is for appdata for your instance.
+ipaddress="" #insert your local docker sonarr IP address
 
 # !!! CONFIG ENDS !!!
 
